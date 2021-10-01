@@ -1,4 +1,3 @@
-
 trigger:
 - '*'
 
@@ -73,9 +72,9 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: dev
+    environment: DEV
     variables:
-    - group: Release
+    - group: Release1
     strategy:
       runOnce:
         deploy:
