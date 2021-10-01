@@ -87,9 +87,9 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: dev
+    environment: Dev13
     variables:
-    - group: Release
+    - group: Dev
     strategy:
       runOnce:
         deploy:
