@@ -87,9 +87,9 @@ stages:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: dev
+    environment: Dev13
     variables:
-    - group: Release
+    - group: Dev
     strategy:
       runOnce:
         deploy:
@@ -105,7 +105,7 @@ stages:
 
 - stage: 'Test'
   displayName: 'Deploy to the test environment'
-  dependsOn: Dev
+  dependsOn: Dev13
   #condition: eq(variables['Build.Reason'], 'Schedule')
   jobs:
   - deployment: Deploy
@@ -113,7 +113,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     environment: test
     variables:
-    - group: 'Release'
+    - group: test
     strategy:
       runOnce:
         deploy:
@@ -129,12 +129,12 @@ stages:
 
 - stage: 'Staging'
   displayName: 'Deploy to the staging environment'
-  dependsOn: Test
+  dependsOn: test
   jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: staging
+    environment: Staging
     variables:
     - group: 'Release'
     strategy:
