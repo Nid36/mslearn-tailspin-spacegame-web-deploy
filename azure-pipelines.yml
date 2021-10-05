@@ -66,16 +66,16 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'Nid-Dev'
+- stage: 'Dev'
   displayName: 'Deploy to the dev environment'
   dependsOn: Build
   jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: DEV1
+    environment: dev
     variables:
-    - group: Nid-Dev
+    - group: Release
     strategy:
       runOnce:
         deploy:
@@ -89,16 +89,16 @@ stages:
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
-- stage: 'Nid-Test'
+- stage: 'Test'
   displayName: 'Deploy to the test environment'
-  dependsOn: Nid-Dev
+  dependsOn: Dev
   jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: Test1
+    environment: test
     variables:
-    - group: Nid-Test
+    - group: 'Release'
     strategy:
       runOnce:
         deploy:
@@ -137,16 +137,16 @@ stages:
         publishTestResults: true
         projects: '$(System.DefaultWorkingDirectory)/**/*UITests.csproj'
 
-- stage: 'Nid-Stagging'
+- stage: 'Staging'
   displayName: 'Deploy to the staging environment'
-  dependsOn: Nid-Test
+  dependsOn: Test
   jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: Stagging1
+    environment: staging
     variables:
-    - group: Nid-Stagging
+    - group: 'Release'
     strategy:
       runOnce:
         deploy:
