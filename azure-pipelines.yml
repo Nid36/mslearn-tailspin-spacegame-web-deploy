@@ -66,7 +66,7 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'Dev'
+- stage: 'Nid-Dev'
   displayName: 'Deploy to the dev environment'
   dependsOn: Build
   jobs:
@@ -89,9 +89,9 @@ stages:
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 
-- stage: 'Test'
+- stage: 'Nid-Test'
   displayName: 'Deploy to the test environment'
-  dependsOn: Dev
+  dependsOn: Nid-Dev
   jobs:
   - deployment: Deploy
     pool:
@@ -137,9 +137,9 @@ stages:
         publishTestResults: true
         projects: '$(System.DefaultWorkingDirectory)/**/*UITests.csproj'
 
-- stage: 'Staging'
+- stage: 'Nid-Stagging'
   displayName: 'Deploy to the staging environment'
-  dependsOn: Test
+  dependsOn: Nid-Test
   jobs:
   - deployment: Deploy
     pool:
